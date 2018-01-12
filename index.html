@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>showData</title>
+		<style type="text/css">
+			body {
+				margin: 0;
+				padding: 0;
+				background: #f9f9f9;
+			}
+			
+			.dataDiv {
+				width: 46%;
+				height: 50%;
+				background: #FFFFFF;
+				float: left;
+				margin: 5px;
+			}
+			
+			.textDiv {
+				height: 40px;
+				padding: 5px;
+				color: #b9b9b9;
+				overflow: hidden;
+			}
+			
+			.priceDiv {
+				line-height: 35px;
+				padding: 0 5px;
+			}
+			
+			.price1 {
+				font-size: 12px;
+				text-decoration: line-through;
+				color: #b6b6b6;
+			}
+			
+			.price2 {
+				color: #f9a13f;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="app">
+			<div v-for="(v,i) in objs">
+				<div class="dataDiv">
+					<img :src="imgPath+v.fimg" width="100%" />
+					<div class="textDiv">
+						{{v.fname}}
+					</div>
+					<div class="priceDiv">
+						<span class="price2">
+									￥{{v.fprice2}}
+								</span>
+						<span class="price1">
+									￥{{v.fprice1}}
+								</span>
+						<div style="float: right;">
+							<img src="img/cart.png" width="26" />
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="js/axios.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			var app = new Vue({
+				el: "#app",
+				data: {
+					url: "http://localhost:8080/fruit",
+					imgPath: "img/",
+					objs: "",
+				},
+				methods: {
+					initData: function() {
+						axios.get(this.url)
+							.then(function(data) {
+								app.objs = data.data;
+							})
+							.catch(function(error) {
+								console.log(error);
+							})
+					}
+				}
+			});
+
+			app.initData();
+		</script>
+	</body>
+
+</html>
